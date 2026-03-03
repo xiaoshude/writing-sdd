@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download All Diagrams</title>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #e9ecef;
+    padding: 40px 20px;
+    padding-top: 80px;
+  }
+  .gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .image-wrapper {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  .image-label {
+    font-size: 12px;
+    color: #868e96;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .download-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #495057;
+    color: #FFF;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+  .download-btn:disabled {
+    background: #adb5bd;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .download-progress {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: #FFF;
+    padding: 14px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    font-size: 13px;
+    color: #495057;
+    z-index: 1000;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<button class="download-btn" onclick="downloadAll()">
+  <span>⬇</span>
+  <span>Download All</span>
+</button>
+<div class="download-progress" id="progress"></div>
+
+<div class="gallery">
+  <!-- INSERT DIAGRAMS HERE -->
+</div>
+
+<script>
+async function downloadAll() {
+  const btn = document.querySelector('.download-btn');
+  const progress = document.getElementById('progress');
+  const diagrams = document.querySelectorAll('.diagram');
+  
+  btn.disabled = true;
+  btn.innerHTML = '<span>⏳</span><span>Generating...</span>';
+  progress.style.display = 'block';
+  
+  for (let i = 0; i < diagrams.length; i++) {
+    const diagram = diagrams[i];
+    const name = diagram.dataset.name || `diagram-${String(i + 1).padStart(2, '0')}`;
+    progress.textContent = `Processing ${i + 1}/${diagrams.length}: ${name}...`;
+    
+    try {
+      const canvas = await html2canvas(diagram, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#f8f9fa',
+        logging: false
+      });
+      
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${name}.png`;
+      a.click();
+      
+      URL.revokeObjectURL(url);
+      await new Promise(r => setTimeout(r, 600));
+    } catch (err) {
+      console.error(`Failed: ${name}`, err);
+    }
+  }
+  
+  btn.disabled = false;
+  btn.innerHTML = '<span>⬇</span><span>Download All</span>';
+  progress.textContent = 'Done!';
+  setTimeout(() => { progress.style.display = 'none'; }, 2000);
+}
+</script>
+
+</body>
+</html>
+

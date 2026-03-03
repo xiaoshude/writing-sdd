@@ -1,0 +1,35 @@
+/**
+ * Color schemes for article diagrams
+ */
+
+/* Neutral Gray (recommended for technical articles) */
+.neutral-gray {
+  --bg: #fff;
+  --module-bg: #f8f9fa;
+  --border: #dee2e6;
+  --text-primary: #495057;
+  --text-secondary: #868e96;
+  --highlight: #495057;
+  --arrow-color: #ced4da;
+}
+
+/* WeChat Green */
+.wechat-green {
+  --primary: #07C160;
+  --primary-light: rgba(7, 193, 96, 0.1);
+  --bg: #fff;
+  --border: #e9ecef;
+  --text-primary: #333;
+  --text-secondary: #888;
+}
+
+/* Ant Design Blue */
+.ant-blue {
+  --primary: #1677ff;
+  --primary-light: rgba(22, 119, 255, 0.1);
+  --bg: #fff;
+  --border: #d9d9d9;
+  --text-primary: #1f1f1f;
+  --text-secondary: #8c8c8c;
+}
+
