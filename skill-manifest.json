@@ -1,0 +1,38 @@
+{
+  "name": "writing-sdd",
+  "version": "1.1.0",
+  "description": "规范驱动的内容创作系统，用于技术博客和公众号写作，含配图生成",
+  "author": "Zhiyuan Fu",
+  "license": "MIT",
+  "repository": "https://github.com/xiaoshude/writing-sdd",
+  "tags": ["writing", "content", "blog", "sdd", "diagrams", "chinese"],
+  "triggers": [
+    "写文章",
+    "创建新文章", 
+    "生成配图",
+    "为文章配图"
+  ],
+  "requirements": {
+    "agent": "支持 Agent Skills 的 AI 助手",
+    "tools": ["文件读写", "代码执行"],
+    "platforms": ["Cursor", "Claude", "VS Code with Copilot", "GitHub Copilot", "OpenAI Codex"]
+  },
+  "features": [
+    "规范驱动写作流程",
+    "多平台内容适配", 
+    "自动配图生成",
+    "AI 去痕处理",
+    "结构化审查流水线"
+  ],
+  "usage": {
+    "quick_start": "/writing.new \"我的文章主题\"",
+    "full_workflow": [
+      "/writing.new \"主题\"",
+      "/writing.spec",
+      "/writing.draft", 
+      "/writing.review",
+      "/writing.diagrams",
+      "/writing.publish"
+    ]
+  }
+}
